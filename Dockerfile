@@ -5,6 +5,10 @@ ENV COMPOSER_HOME /tmp
 ENV COMPOSER_VERSION 1.7.2
 ENV GIT_FTP_VERSION 1.5.1
 
+# Add in PHP Extensions
+RUN apk --no-cache add libxml2-dev libpng-dev
+RUN docker-php-ext-install soap gd
+
 # Composer install
 RUN apk --no-cache add git subversion openssh mercurial tini bash patch
 
@@ -35,16 +39,17 @@ RUN curl --silent --fail --location --retry 3 --output /tmp/installer.php --url 
     && composer --ansi --version --no-interaction
 
 # Node install
-RUN apk add --update nodejs nodejs-npm
+RUN apk add --no-cache nodejs nodejs-npm
 
 # Install bash for git-ftp and make
-RUN apk add bash make
+RUN apk add --no-cache bash make
 
 # GIT
-RUN apk add git
+RUN apk add --no-cache git
 
 # GIT FTP
 RUN git clone https://github.com/git-ftp/git-ftp.git
 RUN cd git-ftp && git -c advice.detachedHead=false checkout "${GIT_FTP_VERSION}" && make install
+RUN rm -rf git-ftp
 
 CMD ["bash"]
