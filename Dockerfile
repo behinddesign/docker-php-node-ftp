@@ -1,5 +1,10 @@
 FROM php:7.1.21-alpine
 
+ENV COMPOSER_ALLOW_SUPERUSER 1
+ENV COMPOSER_HOME /tmp
+ENV COMPOSER_VERSION 1.7.2
+ENV GIT_FTP_VERSION 1.5.1
+
 # Composer install
 RUN apk --no-cache add git subversion openssh mercurial tini bash patch
 
@@ -16,10 +21,6 @@ RUN apk add --no-cache --virtual .build-deps zlib-dev \
         )" \
     && apk add --virtual .composer-phpext-rundeps $runDeps \
     && apk del .build-deps
-
-ENV COMPOSER_ALLOW_SUPERUSER 1
-ENV COMPOSER_HOME /tmp
-ENV COMPOSER_VERSION 1.7.2
 
 RUN curl --silent --fail --location --retry 3 --output /tmp/installer.php --url https://raw.githubusercontent.com/composer/getcomposer.org/b107d959a5924af895807021fcef4ffec5a76aa9/web/installer \
     && php -r " \
@@ -44,6 +45,6 @@ RUN apk add git
 
 # GIT FTP
 RUN git clone https://github.com/git-ftp/git-ftp.git
-RUN cd git-ftp && git checkout "1.5.1" && make install
+RUN cd git-ftp && git -c advice.detachedHead=false checkout "${GIT_FTP_VERSION}" && make install
 
 CMD ["bash"]
