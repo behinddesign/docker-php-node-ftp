@@ -37,8 +37,8 @@ RUN curl --silent --fail --location --retry 3 --output /tmp/installer.php --url 
     && php /tmp/installer.php --no-ansi --install-dir=/usr/bin --filename=composer --version=${COMPOSER_VERSION} \
     && composer --ansi --version --no-interaction
 
-# Node install
-RUN apk add --no-cache nodejs nodejs-npm
+# Yarn install
+RUN apk add --no-cache yarn
 
 # Install bash for git-ftp and make
 RUN apk add --no-cache bash make
