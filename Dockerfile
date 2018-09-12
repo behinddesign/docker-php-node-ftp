@@ -31,7 +31,7 @@ RUN curl --silent --fail --location --retry 3 --output /tmp/installer.php --url 
             exit(1); \
         }" \
     && php /tmp/installer.php --no-ansi --install-dir=/usr/bin --filename=composer --version=${COMPOSER_VERSION} \
-    && composer --ansi --version --no-interaction \
+    && composer --ansi --version --no-interaction
 
 # Node install
 RUN apk add --update nodejs nodejs-npm
