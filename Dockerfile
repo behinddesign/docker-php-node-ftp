@@ -1,7 +1,7 @@
 FROM php:7.1.21-alpine
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
-ENV COMPOSER_VERSION 1.10.10
+ENV COMPOSER_VERSION 1.7.2
 ENV GIT_FTP_VERSION 1.5.1
 
 # Add in PHP Extensions
@@ -25,9 +25,9 @@ RUN apk add --no-cache --virtual .build-deps zlib-dev \
     && apk add --virtual .composer-phpext-rundeps $runDeps \
     && apk del .build-deps
 
-RUN curl --silent --fail --location --retry 3 --output /tmp/installer.php --url https://raw.githubusercontent.com/composer/getcomposer.org/76a7060ccb93902cd7576b67264ad91c8a2700e2/web/installer \
+RUN curl --silent --fail --location --retry 3 --output /tmp/installer.php --url https://raw.githubusercontent.com/composer/getcomposer.org/b107d959a5924af895807021fcef4ffec5a76aa9/web/installer \
     && php -r " \
-        \$signature = '8a6138e2a05a8c28539c9f0fb361159823655d7ad2deecb371b04a83966c61223adc522b0189079e3e9e277cd72b8897'; \
+        \$signature = '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061'; \
         \$hash = hash('SHA384', file_get_contents('/tmp/installer.php')); \
         if (!hash_equals(\$signature, \$hash)) { \
             unlink('/tmp/installer.php'); \
